@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0a0518">
+  <title>Pong neón</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="app">
+
+    <!-- ═════════ LOBBY ═════════ -->
+    <section id="lobby" class="screen">
+      <h1 class="logo">Pong neón</h1>
+      <p class="tagline">Dos jugadores, una pelota, siete puntos.</p>
+
+      <div class="lobby-actions">
+        <button id="btn-create" class="btn btn-pink" type="button" disabled>Crear sala</button>
+
+        <p class="or" aria-hidden="true">o entra con un código</p>
+
+        <form id="join-form" class="join-row" autocomplete="off" novalidate>
+          <label class="sr-only" for="code-input">Código de sala</label>
+          <input id="code-input" class="code-input" type="text" maxlength="4"
+                 inputmode="text" autocapitalize="characters" autocomplete="off"
+                 autocorrect="off" spellcheck="false" placeholder="ABCD">
+          <button id="btn-join" class="btn btn-cyan" type="submit" disabled>Unirse</button>
+        </form>
+
+        <p id="lobby-msg" class="form-msg" role="alert"></p>
+      </div>
+
+      <div id="conn" class="conn" data-state="connecting">
+        <span class="dot" aria-hidden="true"></span>
+        <span id="conn-text">Conectando con el servidor…</span>
+      </div>
+
+      <p class="help">
+        Mueve tu raqueta con W y S o con las flechas arriba y abajo.
+        En el móvil usa los botones de la pantalla.
+      </p>
+    </section>
+
+    <!-- ═════════ PARTIDA ═════════ -->
+    <section id="game" class="screen" hidden>
+      <header class="hud">
+        <div id="score-p1" class="score score-p1" data-you="false">
+          <span class="who">Jugador 1</span>
+          <span id="num-p1" class="num">0</span>
+        </div>
+
+        <div class="hud-center">
+          <span class="room-code">Sala <strong id="room-code">----</strong></span>
+          <span id="status" class="status" role="status" aria-live="polite">Esperando al Jugador 2…</span>
+        </div>
+
+        <div id="score-p2" class="score score-p2" data-you="false">
+          <span class="who">Jugador 2</span>
+          <span id="num-p2" class="num">0</span>
+        </div>
+      </header>
+
+      <div id="court-wrap" class="court-wrap">
+        <canvas id="court" width="800" height="500" role="img"
+                aria-label="Cancha de Pong: raqueta rosa a la izquierda, raqueta cian a la derecha"></canvas>
+
+        <div id="overlay" class="overlay" data-tone="wait" hidden>
+          <h2 id="ov-title" class="ov-title"></h2>
+          <div id="ov-code" class="code-display" hidden></div>
+          <p id="ov-text" class="ov-text"></p>
+          <div id="ov-actions" class="ov-actions"></div>
+        </div>
+      </div>
+
+      <div class="touch-controls" id="touch">
+        <button id="btn-up" class="touch-btn" type="button" aria-label="Subir raqueta">▲</button>
+        <button id="btn-down" class="touch-btn" type="button" aria-label="Bajar raqueta">▼</button>
+      </div>
+
+      <footer class="game-foot">
+        <button id="btn-mute" class="btn btn-ghost" type="button" aria-pressed="false">Sonido: sí</button>
+        <button id="btn-leave" class="btn btn-ghost" type="button">Salir de la sala</button>
+      </footer>
+    </section>
+
+  </main>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>
